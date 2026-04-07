@@ -1,7 +1,9 @@
-// Archivo: src/pages/Login.jsx
+// Archivo: src/Login.jsx
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from './lib/supabase';
+import logoDann from './assets/bg-dann.png';
+import bgDann from './assets/logo-dann.png';
 
 export default function Login() {
     const [email, setEmail] = useState('');
@@ -15,84 +17,81 @@ export default function Login() {
         setLoading(true);
         setError(null);
 
-        // Llamada a Supabase para autenticar con correo y contraseña
-        const { data, error } = await supabase.auth.signInWithPassword({
-            email,
-            password,
-        });
+        const { error } = await supabase.auth.signInWithPassword({ email, password });
 
         if (error) {
             setError('Credenciales incorrectas. Verifica tu correo y contraseña.');
         } else {
-            // Si todo sale bien, lo mandamos al dashboard
             navigate('/dashboard');
         }
-
         setLoading(false);
     };
 
     return (
-        <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
-            <div className="sm:mx-auto sm:w-full sm:max-w-md">
-                <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-                    Iniciar Sesión
-                </h2>
-                <p className="mt-2 text-center text-sm text-gray-600">
-                    Sistema de Registro y Reportes
-                </p>
-            </div>
+        <div
+            className="min-h-screen flex flex-col items-center justify-center px-4 relative"
+            style={{
+                backgroundImage: `url(${bgDann})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+            }}
+        >
+            <div className="absolute inset-0" style={{ background: 'rgba(5, 15, 40, 0.6)' }} />
 
-            <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-                <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10 border border-gray-100">
-                    <form className="space-y-6" onSubmit={handleLogin}>
-                        <div>
-                            <label className="block text-sm font-medium text-gray-700">
-                                Correo electrónico
-                            </label>
-                            <div className="mt-1">
-                                <input
-                                    type="email"
-                                    required
-                                    value={email}
-                                    onChange={(e) => setEmail(e.target.value)}
-                                    className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                                    placeholder="admin@empresa.com"
-                                />
-                            </div>
-                        </div>
+            <div className="relative w-full max-w-sm">
+                <div className="flex justify-center mb-8">
+                    <img
+                        src={logoDann}
+                        alt="Dann Carlton Hotel"
+                        className="h-32 object-contain"
+                        style={{ filter: 'invert(1) brightness(2)' }}
+                    />
+                </div>
 
-                        <div>
-                            <label className="block text-sm font-medium text-gray-700">
-                                Contraseña
-                            </label>
-                            <div className="mt-1">
-                                <input
-                                    type="password"
-                                    required
-                                    value={password}
-                                    onChange={(e) => setPassword(e.target.value)}
-                                    className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                                    placeholder="••••••••"
-                                />
-                            </div>
-                        </div>
+                <h2 className="text-white text-2xl font-bold mb-1">Acceso Administrativo</h2>
+                <p className="text-blue-300 text-sm mb-6">Panel de Registro y Reportes</p>
 
-                        {error && (
-                            <div className="text-red-600 text-sm bg-red-50 p-2 rounded">
-                                {error}
-                            </div>
-                        )}
+                {error && (
+                    <div className="mb-4 p-3 rounded-lg text-sm text-red-200 bg-red-900/40 border border-red-600">
+                        {error}
+                    </div>
+                )}
 
-                        <div>
-                            <button
-                                type="submit"
-                                disabled={loading}
-                                className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50"
-                            >
-                                {loading ? 'Iniciando...' : 'Entrar al sistema'}
-                            </button>
-                        </div>
-                    </form>
+                <div className="space-y-4">
+                    <input
+                        type="email"
+                        placeholder="Correo electrónico"
+                        value={email}
+                        onChange={e => setEmail(e.target.value)}
+                        required
+                        className="w-full px-4 py-4 rounded-lg text-white placeholder-blue-200 text-base focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
+                        style={{ background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(150,180,255,0.3)' }}
+                    />
+                    <input
+                        type="password"
+                        placeholder="Contraseña"
+                        value={password}
+                        onChange={e => setPassword(e.target.value)}
+                        required
+                        className="w-full px-4 py-4 rounded-lg text-white placeholder-blue-200 text-base focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
+                        style={{ background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(150,180,255,0.3)' }}
+                    />
+
+                    <button
+                        onClick={handleLogin}
+                        disabled={loading}
+                        className="w-full py-4 rounded-lg text-white font-bold text-base transition-all hover:opacity-90 active:scale-95 disabled:opacity-60"
+                        style={{ background: 'linear-gradient(90deg, #2563eb, #3b82f6)', boxShadow: '0 4px 20px rgba(37,99,235,0.5)' }}
+                    >
+                        {loading ? 'Ingresando...' : 'Ingresar al sistema'}
+                    </button>
+
+                    <button
+                        onClick={() => navigate('/')}
+                        className="w-full text-sm text-blue-300 hover:text-white transition underline pt-1"
+                    >
+                        ← Volver al registro
+                    </button>
                 </div>
             </div>
         </div>

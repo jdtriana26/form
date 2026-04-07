@@ -61,40 +61,42 @@ export default function Reportes({ datos }) {
     };
 
     return (
-        <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200 mt-8">
-            <div className="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
+        <div
+            className="p-6 rounded-2xl mt-2"
+            style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(150,180,255,0.15)', backdropFilter: 'blur(8px)' }}
+        >
+            <div className="flex flex-col md:flex-row justify-between items-center mb-6 gap-4">
                 <div>
-                    <h2 className="text-xl font-bold text-gray-800">Análisis y Reportes</h2>
-                    <p className="text-sm text-gray-500">Cantidad de personas por empresa</p>
+                    <h2 className="text-white text-lg font-bold">Análisis y Reportes</h2>
+                    <p className="text-blue-300 text-xs">Cantidad de personas por empresa</p>
                 </div>
 
-                {/* Botones de Exportación */}
                 <div className="flex space-x-3">
                     <button
                         onClick={exportarPDF}
-                        className="flex items-center px-4 py-2 bg-red-50 text-red-700 rounded-lg hover:bg-red-100 transition-colors border border-red-200 shadow-sm text-sm font-medium"
+                        className="flex items-center px-4 py-2 rounded-lg text-sm font-medium transition hover:opacity-80"
+                        style={{ background: 'rgba(239,68,68,0.2)', border: '1px solid rgba(239,68,68,0.4)', color: '#fca5a5' }}
                     >
                         <FileText className="w-4 h-4 mr-2" /> PDF
                     </button>
                     <button
                         onClick={exportarExcel}
-                        className="flex items-center px-4 py-2 bg-green-50 text-green-700 rounded-lg hover:bg-green-100 transition-colors border border-green-200 shadow-sm text-sm font-medium"
+                        className="flex items-center px-4 py-2 rounded-lg text-sm font-medium transition hover:opacity-80"
+                        style={{ background: 'rgba(16,185,129,0.2)', border: '1px solid rgba(16,185,129,0.4)', color: '#6ee7b7' }}
                     >
                         <TableIcon className="w-4 h-4 mr-2" /> Excel
                     </button>
                 </div>
             </div>
 
-            {/* Gráfico */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 h-80 w-full mt-10">
-                {/* Gráfico de Barras (El que ya tienes) */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 h-64 w-full">
                 <ResponsiveContainer width="100%" height="100%">
                     <BarChart data={dataGrafico}>
-                        <CartesianGrid strokeDasharray="3 3" vertical={false} />
-                        <XAxis dataKey="name" />
-                        <YAxis allowDecimals={false} />
-                        <Tooltip />
-                        <Bar dataKey="cantidad">
+                        <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="rgba(150,180,255,0.1)" />
+                        <XAxis dataKey="name" tick={{ fill: '#93c5fd', fontSize: 11 }} />
+                        <YAxis allowDecimals={false} tick={{ fill: '#93c5fd', fontSize: 11 }} />
+                        <Tooltip contentStyle={{ background: '#0f1f3d', border: '1px solid rgba(150,180,255,0.3)', borderRadius: 8, color: '#fff' }} />
+                        <Bar dataKey="cantidad" radius={[4, 4, 0, 0]}>
                             {dataGrafico.map((entry, index) => (
                                 <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                             ))}
@@ -102,7 +104,6 @@ export default function Reportes({ datos }) {
                     </BarChart>
                 </ResponsiveContainer>
 
-                {/* NUEVO: Gráfico de Pastel */}
                 <ResponsiveContainer width="100%" height="100%">
                     <PieChart>
                         <Pie
@@ -111,15 +112,16 @@ export default function Reportes({ datos }) {
                             nameKey="name"
                             cx="50%"
                             cy="50%"
-                            outerRadius={80}
-                            label={({name, percent}) => `${name} ${(percent * 100).toFixed(0)}%`}
+                            outerRadius={75}
+                            label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
+                            labelLine={{ stroke: 'rgba(150,180,255,0.4)' }}
                         >
                             {dataGrafico.map((entry, index) => (
                                 <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                             ))}
                         </Pie>
-                        <Tooltip />
-                        <Legend />
+                        <Tooltip contentStyle={{ background: '#0f1f3d', border: '1px solid rgba(150,180,255,0.3)', borderRadius: 8, color: '#fff' }} />
+                        <Legend wrapperStyle={{ color: '#93c5fd', fontSize: 12 }} />
                     </PieChart>
                 </ResponsiveContainer>
             </div>

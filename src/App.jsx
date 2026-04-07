@@ -3,23 +3,20 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { supabase } from './lib/supabase';
 
-// Importamos tus páginas
-import Login from './Login.jsx';      // <--- Sin la carpeta /pages
-import Dashboard from './Dashboard';
-import Reportes from './Reportes';
+import Registro from './Registro.jsx';
+import Login from './Login.jsx';
+import Dashboard from './Dashboard.jsx';
 
 export default function App() {
   const [session, setSession] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // 1. Revisar si hay una sesión activa al cargar la app
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session);
       setLoading(false);
     });
 
-    // 2. Escuchar cambios en la autenticación (Login/Logout)
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       setSession(session);
     });
@@ -27,33 +24,28 @@ export default function App() {
     return () => subscription.unsubscribe();
   }, []);
 
-  // Mientras verifica la sesión, mostramos un indicador de carga
   if (loading) {
     return (
-        <div className="h-screen flex items-center justify-center bg-gray-50">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
-        </div>
+      <div className="h-screen flex items-center justify-center" style={{ background: '#0a1628' }}>
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-400"></div>
+      </div>
     );
   }
 
   return (
-      <BrowserRouter>
-        <Routes>
-          {/* Ruta de Login: Si ya está logueado, lo manda al Dashboard */}
-          <Route
-              path="/"
-              element={!session ? <Login /> : <Navigate to="/dashboard" />}
-          />
+    <BrowserRouter>
+      <Routes>
+        {/* Registro público: accesible para todos */}
+        <Route path="/" element={<Registro session={session} />} />
 
-          {/* Ruta Protegida: Si NO está logueado, lo manda al Login */}
-          <Route
-              path="/dashboard"
-              element={session ? <Dashboard /> : <Navigate to="/" />}
-          />
+        {/* Login: si ya está logueado va al dashboard */}
+        <Route path="/login" element={!session ? <Login /> : <Navigate to="/dashboard" />} />
 
-          {/* Redirección por defecto para rutas no encontradas */}
-          <Route path="*" element={<Navigate to="/" />} />
-        </Routes>
-      </BrowserRouter>
+        {/* Dashboard protegido: solo con sesión */}
+        <Route path="/dashboard" element={session ? <Dashboard /> : <Navigate to="/login" />} />
+
+        <Route path="*" element={<Navigate to="/" />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
