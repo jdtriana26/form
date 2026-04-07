@@ -2,8 +2,8 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from './lib/supabase';
-import logoDann from './assets/bg-dann.png';
-import bgDann from './assets/logo-dann.png';
+import logoDann from './assets/logo-dann.png';
+import bgDann from './assets/bg-dann.png';
 
 export default function Login() {
     const [email, setEmail] = useState('');
@@ -44,7 +44,7 @@ export default function Login() {
                         src={logoDann}
                         alt="Dann Carlton Hotel"
                         className="h-32 object-contain"
-                        style={{ filter: 'invert(1) brightness(2)' }}
+                        style={{ filter: 'brightness(2)' }}
                     />
                 </div>
 

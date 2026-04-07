@@ -3,8 +3,8 @@ import { supabase } from './lib/supabase';
 import { LogOut, Search } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import Reportes from './Reportes';
-import logoDann from './assets/bg-dann.png';
-import bgDann from './assets/logo-dann.png';
+import logoDann from './assets/logo-dann.png';
+import bgDann from './assets/bg-dann.png';
 
 const inputClass = "w-full px-4 py-3 rounded-lg text-white placeholder-blue-200 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 transition";
 const inputStyle = { background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(150,180,255,0.25)' };
@@ -79,7 +79,7 @@ export default function Dashboard() {
                 {/* Header */}
                 <div className="flex justify-between items-center mb-8">
                     <div className="flex items-center gap-4">
-                        <img src={logoDann} alt="Dann Carlton" className="h-12 object-contain" style={{ filter: 'invert(1) brightness(2)' }} />
+                        <img src={logoDann} alt="Dann Carlton" className="h-12 object-contain" style={{ filter: 'brightness(2)' }} />
                         <div>
                             <h1 className="text-white text-xl font-bold leading-tight">Panel de Registros</h1>
                             <p className="text-blue-300 text-xs">Dann Carlton Hotel · Quito</p>
