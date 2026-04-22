@@ -72,34 +72,6 @@ export default function Reportes({ datos }) {
                     </button>
                 </div>
             </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 h-64">
-                <ResponsiveContainer width="100%" height="100%">
-                    <BarChart data={dataGrafico}>
-                        <CartesianGrid strokeDasharray="3 3" stroke="rgba(150,180,255,0.1)" />
-                        <XAxis dataKey="name" tick={{ fill: '#93c5fd' }} />
-                        <YAxis allowDecimals={false} tick={{ fill: '#93c5fd' }} />
-                        <Tooltip />
-                        <Bar dataKey="cantidad" radius={[4, 4, 0, 0]}>
-                            {dataGrafico.map((entry, index) => (
-                                <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                            ))}
-                        </Bar>
-                    </BarChart>
-                </ResponsiveContainer>
-
-                <ResponsiveContainer width="100%" height="100%">
-                    <PieChart>
-                        <Pie data={dataGrafico} dataKey="cantidad" nameKey="name" cx="50%" cy="50%" outerRadius={75} label>
-                            {dataGrafico.map((entry, index) => (
-                                <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                            ))}
-                        </Pie>
-                        <Tooltip />
-                        <Legend />
-                    </PieChart>
-                </ResponsiveContainer>
-            </div>
         </div>
     );
 }
