@@ -60,7 +60,6 @@ export default function Reportes({ datos }) {
             <div className="flex flex-col md:flex-row justify-between items-center mb-6 gap-4">
                 <div>
                     <h2 className="text-white text-lg font-bold">Análisis y Reportes</h2>
-                    <p className="text-blue-300 text-xs">Cantidad de personas por empresa</p>
                 </div>
 
                 <div className="flex space-x-3">
