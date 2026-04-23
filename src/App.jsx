@@ -2,6 +2,7 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { supabase } from './lib/supabase';
+import { Analytics } from '@vercel/analytics/react';
 
 import Registro from './Registro.jsx';
 import Login from './Login.jsx';
@@ -46,6 +47,7 @@ export default function App() {
 
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
+      <Analytics />
     </BrowserRouter>
   );
 }
